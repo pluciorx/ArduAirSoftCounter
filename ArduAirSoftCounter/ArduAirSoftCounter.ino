@@ -216,9 +216,7 @@ void loop() {
 			}
 			if (lockCounter == spawnLock)
 			{
-				lockLeftSeconds = lockSeconds;
-				unsigned long currentLoopTime = millis();
-				
+				lockLeftSeconds = lockSeconds;				
 				// we have reached the lock threshold start counting and lock the decreare
 				lcd.setCursor(0, 2);
 				lcd.print("Lock (s):");         			
