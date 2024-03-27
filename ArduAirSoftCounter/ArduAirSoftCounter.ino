@@ -190,6 +190,7 @@ void loop() {
 			if (btnEnter.justPressed())
 			{
 				Beep();
+				delay(50);
 				Serial.println("Dead count increased");
 				counter++;
 			}
@@ -208,7 +209,9 @@ void loop() {
 			
 			if (btnEnter.justPressed() && lockCounter < spawnLock)
 			{
+				
 				Beep();
+				delay(30);
 				counter--;
 				Serial.println("Spawns available decreased");
 				
@@ -223,13 +226,10 @@ void loop() {
 					return;
 				}
 				lockCounter++;
-				Serial.println(counter);
-				Serial.println(lockCounter);
 			}
 			if (lockCounter == spawnLock)
 			{
 				
-				Beep();
 				lockLeftSeconds = lockSeconds;				
 				// we have reached the lock threshold start counting and lock the decreare
 				lcd.setCursor(0, 2);
@@ -248,7 +248,7 @@ void loop() {
 					delay(1000);
 					Beep();
 				}
-				
+				Beep(); Beep();
 				lockCounter = 0; 
 			}
 			else {
@@ -295,13 +295,13 @@ void SetState(E_STATE newState)
 void Beep()
 {
 	int x = 0;
-	while (x < 10)
+	while (x < 50)
 	{
 		analogWrite(SPK_PIN, 255);
-		delay(5);
+		delay(1);
 		analogWrite(SPK_PIN, 0);
 		x++;
-		delay(5);
+		delay(1);
 
 	}
 }
