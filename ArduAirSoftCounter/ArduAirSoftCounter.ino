@@ -171,7 +171,8 @@ void loop() {
 	}break;
 	case GameInProgress:{
 		lcd.setCursor(0, 0);            
-		lcd.print("Game in Progress");          
+		lcd.print("Game in Progress");     
+		btnEnter.update();
 		if (CountDeads)
 		{
 			lcd.setCursor(0, 1);
@@ -249,8 +250,7 @@ void loop() {
 				lcd.print("!!! UNLOCKED !!!");
 			}
 		}
-		lcd.setCursor(0, 3);
-		btnEnter.update();
+				
 		delay(10);
 
 	}break;
