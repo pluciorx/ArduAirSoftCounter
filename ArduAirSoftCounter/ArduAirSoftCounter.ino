@@ -13,10 +13,10 @@ void setup() {
 	lcd.setCursor(0, 1);            // move cursor to the second row
 	lcd.print("pluciorx@gmail.com"); // print message at the second row
 	lcd.setCursor(0, 2);            // move cursor to the third row
-	lcd.print("v0.1"); // print message at the second row
+	lcd.print("v0.1 dla AGT-Airsoft "); // print message at the second row
 	lcd.setCursor(0, 3);            // move cursor to the third row
-	lcd.print("v0.1"); // print message at the second row
-
+	lcd.print("Grudziadz Team."); // print message at the second row
+	delay(10000);
 }
 
 enum EState {
