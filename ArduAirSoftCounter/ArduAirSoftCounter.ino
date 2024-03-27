@@ -1,6 +1,7 @@
 
 #include <Adafruit_Debounce.h>
 #include <LiquidCrystal_I2C.h>
+#define SPK_PIN 3
 
 LiquidCrystal_I2C lcd(0x27, 20, 4); // I2C address 0x27, 20 column and 4 rows
 
@@ -32,6 +33,8 @@ void setup() {
 	btnPlus.begin();
 	btnEnter.begin();
 
+	pinMode(SPK_PIN, OUTPUT);
+
 	lcd.init(); // initialize the lcd
 	lcd.backlight();
 	lcd.clear();
@@ -43,7 +46,7 @@ void setup() {
 	lcd.print("v0.1 dla AGT-Airsoft "); // print message at the second row
 	lcd.setCursor(0, 3);            // move cursor to the third row
 	lcd.print("Grudziadz Team"); // print message at the second row
-	delay(5000);
+	delay(3000);
 	SetState(E_STATE::PreGameSpawns);
 }
 
@@ -77,10 +80,12 @@ void loop() {
 
 			if (btnMinus.justPressed())
 			{
+				Beep();
 				Serial.println("Decreasing counter;");
 				if (counter>0) counter--;
 			}
 			if (btnPlus.justPressed()) {
+				Beep();
 				Serial.println("Increasing counter;");
 				counter++;
 			}
@@ -88,13 +93,13 @@ void loop() {
 			lcd.print("  ");
 			lcd.setCursor(0, 1);
 			lcd.print(counter);
-			delay(10);
+			
 		}
 		if (btnEnter.justPressed())
 		{
 			SetState(E_STATE::PreGameTimePerBlock);
 			btnEnter.update();			
-			delay(50);
+			delay(10);
 		}
 	}break;
 	case PreGameTimePerBlock: {
@@ -112,10 +117,12 @@ void loop() {
 
 			if (btnMinus.justPressed())
 			{
+				Beep();
 				Serial.println("Decreasing time;");
 				if (lockSeconds > 0) lockSeconds--;
 			}
 			if (btnPlus.justPressed()) {
+				Beep();
 				Serial.println("Increasing time;");
 				lockSeconds++;
 			}
@@ -141,16 +148,19 @@ void loop() {
 		lcd.print("(-)   (+)    (Start)");
 		while (!btnEnter.justPressed())
 		{
+
 			btnMinus.update();
 			btnPlus.update();
 			btnEnter.update();
 
 			if (btnMinus.justPressed())
 			{
+				Beep();
 				Serial.println("Decreasing spawnLock;");
 				if (spawnLock > 0) spawnLock--;
 			}
 			if (btnPlus.justPressed()) {
+				Beep();
 				Serial.println("Increasing spawnLock;");
 				spawnLock++;
 			}
@@ -166,7 +176,7 @@ void loop() {
 			maxCounter = counter;
 			SetState(E_STATE::GameInProgress);
 			btnEnter.update();
-			delay(50);
+			delay(10);
 		}
 	}break;
 	case GameInProgress:{
@@ -179,6 +189,7 @@ void loop() {
 			lcd.print("Spawns:");          
 			if (btnEnter.justPressed())
 			{
+				Beep();
 				Serial.println("Dead count increased");
 				counter++;
 			}
@@ -196,7 +207,8 @@ void loop() {
 			lcd.print(counter);
 			
 			if (btnEnter.justPressed() && lockCounter < spawnLock)
-			{				
+			{
+				Beep();
 				counter--;
 				Serial.println("Spawns available decreased");
 				
@@ -216,6 +228,8 @@ void loop() {
 			}
 			if (lockCounter == spawnLock)
 			{
+				
+				Beep();
 				lockLeftSeconds = lockSeconds;				
 				// we have reached the lock threshold start counting and lock the decreare
 				lcd.setCursor(0, 2);
@@ -232,10 +246,13 @@ void loop() {
 					lcd.setCursor(0, 3);
 					lcd.print("!!! LOCKED !!!");
 					delay(1000);
+					Beep();
 				}
+				
 				lockCounter = 0; 
 			}
 			else {
+				
 				//we are just counting the deads
 				lcd.setCursor(0, 2);
 				lcd.print("        ");         
@@ -253,6 +270,7 @@ void loop() {
 
 	}break;
 	case Finish: {
+		
 		lcd.clear();
 		lcd.setCursor(0, 0);
 		lcd.print(" ! Game Finished !");
@@ -269,6 +287,21 @@ void loop() {
 
 void SetState(E_STATE newState)
 {
+	Beep();
 	_state = _state != newState ? newState : _state;
 	lcd.clear();
+}
+
+void Beep()
+{
+	int x = 0;
+	while (x < 10)
+	{
+		analogWrite(SPK_PIN, 255);
+		delay(5);
+		analogWrite(SPK_PIN, 0);
+		x++;
+		delay(5);
+
+	}
 }
