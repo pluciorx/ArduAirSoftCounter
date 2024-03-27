@@ -206,15 +206,8 @@ void loop() {
 
 				if (counter == 0)
 				{
-					lcd.clear();
-					lcd.setCursor(0, 1);
-					lcd.print("! Game Finished !");
-					lcd.setCursor(0, 2);
-					lcd.print("Spawn's used:");
-					lcd.setCursor(0, 3);
-					lcd.print(maxCounter);
-					while (1)
-					{ }// loop until someone will restart the device
+					SetState(E_STATE::Finish);
+					return;
 				}
 				lockCounter++;
 				Serial.println(counter);
@@ -262,7 +255,16 @@ void loop() {
 
 	}break;
 	case Finish: {
-		//Show finish message !
+		lcd.clear();
+		lcd.setCursor(0, 0);
+		lcd.print(" ! Game Finished !");
+		lcd.setCursor(0, 2);
+		lcd.print("Spawn's used:");
+		lcd.setCursor(15, 2);
+		lcd.print(maxCounter);
+		while (1)
+		{
+		}// loop until someone will restart the device
 	}break;		
 	}
 }
