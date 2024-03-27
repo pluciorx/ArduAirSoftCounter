@@ -22,7 +22,6 @@ E_STATE _state;
 int maxCounter, counter = 0;
 int lockCounter = 0;
 int lockLeftSeconds,lockSeconds = 0;
-
 int spawnLock = 0;
 bool CountDeads = true;
 
@@ -48,10 +47,8 @@ void setup() {
 	SetState(E_STATE::PreGameSpawns);
 }
 
-
 void loop() {
 	
-
 	switch (_state)
 	{
 	case PreGameInit:
@@ -66,7 +63,6 @@ void loop() {
 		 btnEnter.update();
 	}break;
 	case PreGameSpawns: {
-		
 
 		lcd.setCursor(0, 0);            
 		lcd.print("Spawns available:");       
@@ -100,9 +96,6 @@ void loop() {
 			btnEnter.update();			
 			delay(50);
 		}
-	
-
-		//display menu to increase counter for team lifes
 	}break;
 	case PreGameTimePerBlock: {
 
@@ -138,8 +131,6 @@ void loop() {
 			btnEnter.update();
 			delay(50);
 		}
-
-		//display menu to increase counter for team lifes
 	}break;
 	case PreGameSpawnBlock: {
 
@@ -177,17 +168,10 @@ void loop() {
 			btnEnter.update();
 			delay(50);
 		}
-
-
-		//display menu to increase counter for team lifes
 	}break;
-
 	case GameInProgress:{
-		
-		
 		lcd.setCursor(0, 0);            
 		lcd.print("Game in Progress");          
-		
 		if (CountDeads)
 		{
 			lcd.setCursor(0, 1);
@@ -201,7 +185,6 @@ void loop() {
 			lcd.print("  ");
 			lcd.setCursor(9, 1);
 			lcd.print(counter);
-			
 		}
 		else {
 			lcd.setCursor(0, 1);
@@ -232,12 +215,10 @@ void loop() {
 					lcd.print(maxCounter);
 					while (1)
 					{ }// loop until someone will restart the device
-					
 				}
 				lockCounter++;
 				Serial.println(counter);
 				Serial.println(lockCounter);
-				
 			}
 			if (lockCounter == spawnLock)
 			{
@@ -260,8 +241,6 @@ void loop() {
 					lcd.print("!!! LOCKED !!!");
 					delay(1000);
 				}
-				
-				
 				lockCounter = 0; 
 			}
 			else {
@@ -275,30 +254,21 @@ void loop() {
 				lcd.print("               ");
 				lcd.setCursor(0, 3);
 				lcd.print("!!! UNLOCKED !!!");
-
 			}
-			
-
-
 		}
-
 		lcd.setCursor(0, 3);
-		
 		btnEnter.update();
 		delay(10);
 
 	}break;
 	case Finish: {
 		//Show finish message !
-	}break;
-				
+	}break;		
 	}
-	
 }
 
 void SetState(E_STATE newState)
 {
-	
 	_state = _state != newState ? newState : _state;
 	lcd.clear();
 }
