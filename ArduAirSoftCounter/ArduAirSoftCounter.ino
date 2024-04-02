@@ -228,7 +228,7 @@ void loop() {
 				lockCounter++;
 			}
 
-			if (lockCounter == spawnLock && spawnLock >=1 && lockSeconds >=0)
+			if (lockCounter == spawnLock && (spawnLock >=1 && lockSeconds >=1))
 			{
 				Beep(); Beep(); Beep();
 				lockLeftSeconds = lockSeconds;				
