@@ -227,9 +227,10 @@ void loop() {
 				}
 				lockCounter++;
 			}
-			if (lockCounter == spawnLock)
+
+			if (lockCounter == spawnLock && spawnLock >=1 && lockSeconds >=0)
 			{
-				
+				Beep(); Beep(); Beep();
 				lockLeftSeconds = lockSeconds;				
 				// we have reached the lock threshold start counting and lock the decreare
 				lcd.setCursor(0, 2);
@@ -246,7 +247,7 @@ void loop() {
 					lcd.setCursor(0, 3);
 					lcd.print("!!! LOCKED !!!");
 					delay(1000);
-					Beep();
+					if(lockLeftSeconds <= 10) Beep();
 				}
 				Beep(); Beep();
 				lockCounter = 0; 
